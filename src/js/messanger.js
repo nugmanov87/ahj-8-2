@@ -1,7 +1,6 @@
-import API from './Api.js';
+import User from './User.js';
 
-
-const api = new API('https://ahj-8-2-2.herokuapp.com/users');
+const user = new User('https://ahj-8-2-2.herokuapp.com/users');
 
 function convertDate(value) {
   const rValue = value < 10 ? `0${value}` : value;
@@ -23,7 +22,6 @@ function printData(valueDate) {
 export default class Messanger {
   constructor(name) {
     this.nameUser = name;
-    // this.url = 'ws://localhost:7070/ws';
     this.url = 'wss://ahj-8-2-2.herokuapp.com/ws';
   }
 
@@ -37,13 +35,12 @@ export default class Messanger {
 
     window.addEventListener('beforeunload', () => {
       this.ws.close(1000, 'work end');
-      api.remove(this.nameUser);
+      user.remove(this.nameUser);
       this.drawUsersList();
     });
 
-    this.elInputMessage.addEventListener('keypress', (evt) => {
-      // send message
-      if (evt.key === 'Enter') {
+    this.elInputMessage.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
         this.sendMessage(this.elInputMessage.value);
         this.elInputMessage.value = '';
       }
@@ -55,16 +52,14 @@ export default class Messanger {
 
     this.ws.addEventListener('open', () => {
       console.log('connected');
-      // this.ws.send('hello');
     });
 
-    this.ws.addEventListener('message', (evt) => {
-      // print msg
-      this.drawMessage(evt);
+    this.ws.addEventListener('message', (e) => {
+      this.drawMessage(e);
     });
 
-    this.ws.addEventListener('close', (evt) => {
-      console.log('connection closed', evt);
+    this.ws.addEventListener('close', (e) => {
+      console.log('connection closed', e);
     });
 
     this.ws.addEventListener('error', () => {
@@ -73,7 +68,7 @@ export default class Messanger {
   }
 
   async drawUsersList() {
-    const response = await api.load();
+    const response = await user.load();
     const arrUsers = await response.json();
     console.log(this.nameUser);
     const elListUsers = document.querySelector('#list-users');
@@ -139,7 +134,6 @@ export default class Messanger {
         console.log(e);
       }
     } else {
-      // Reconnect
       console.log('reconect');
       this.ws = new WebSocket(this.url);
     }

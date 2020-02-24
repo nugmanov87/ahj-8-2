@@ -1,8 +1,7 @@
-import API from './Api.js';
+import User from './User.js';
 import Messanger from './messanger.js';
 
-// const api = new API('http://localhost:7070/users');
-const api = new API('https://ahj-8-2-2.herokuapp.com/users');
+const user = new User('https://ahj-8-2-2.herokuapp.com/users');
 
 const elWindowStart = document.querySelector('.window');
 const submitName = document.querySelector('#submit-name');
@@ -20,11 +19,11 @@ submitName.addEventListener('click', async () => {
   nameUser = inputName.value;
 
   if (nameUser) {
-    const response = await api.load();
+    const response = await user.load();
     const arrUsers = await response.json();
 
     if (arrUsers.findIndex((item) => item.name === nameUser) === -1) {
-      await api.add({ name: nameUser });
+      await user.add({ name: nameUser });
       elWindowStart.classList.add('hidden');
       inputName.value = '';
       conectChat();

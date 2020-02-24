@@ -1,4 +1,4 @@
-export default class API {
+export default class User {
   constructor(url) {
     this.url = url;
     this.contentTypeHeader = { 'Content-Type': 'application/json' };
