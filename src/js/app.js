@@ -2,7 +2,7 @@ import API from './Api.js';
 import Messanger from './messanger.js';
 
 // const api = new API('http://localhost:7070/users');
-const api = new API('https://ahj-8-2-2.herokuapp.com/');
+const api = new API('https://ahj-8-2-2.herokuapp.com/users');
 
 const elWindowStart = document.querySelector('.window');
 const submitName = document.querySelector('#submit-name');
